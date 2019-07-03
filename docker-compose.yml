@@ -1,0 +1,88 @@
+version: '3'
+
+services:
+  reverse-proxy:
+    image: traefik
+    command: --api --docker
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - web
+      - default
+    restart: always
+    container_name: traefik
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "/opt/traefik/traefik.toml:/traefik.toml"
+      - "/opt/traefik/acme.json:/acme.json"
+    labels:
+      - "traefik.docker.network=exports"
+      - "traefik.frontend.rule=Host:monitoring.stuv-mosbach.de"
+      - "traefik.enable=true"
+      - "traefik.port=8080"
+      - "traefik.protocol=http"
+
+  database:
+    image: mongo
+    restart: always
+    container_name: database
+
+  portainer:
+    image: portainer/portainer
+    container_name: portainer
+    restart: always
+    expose:
+      - "9000"
+    networks:
+      - web
+      - default
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /opt/portainer/data:/data
+    labels:
+      - "traefik.docker.network=web"
+      - "traefik.enable=true"
+      - "traefik.basic.frontend.rule=Host:portainer.stuv-mosbach.de"
+      - "traefik.basic.port=9000"
+      - "traefik.basic.protocol=http"
+
+  backend:
+    image: backend_package:v4.3
+    restart: always
+    depends_on:
+      - database
+    networks:
+      - web
+      - default
+    expose:
+      - "8090"
+    labels:
+      - "traefik.docker.network=exports"
+      - "traefik.frontend.rule=Host:api.stuv-mosbach.de"
+      - "traefik.enable=true"
+      - "traefik.port=8090"
+      - "traefik.protocol=http"
+
+  frontend:
+    image: frontend:v4.4
+    container_name: frontend
+    restart: always
+    depends_on:
+      - backend
+    networks:
+      - web
+      - default
+    expose:
+      - "80"
+    labels:
+      - "traefik.docker.network=web"
+      - "traefik.enable=true"
+      - "traefik.basic.frontend.rule=Host:app.stuv-mosbach.de"
+      - "traefik.basic.port=80"
+      - "traefik.basic.protocol=http"
+
+networks:
+  web:
+    external: true
+  default:
