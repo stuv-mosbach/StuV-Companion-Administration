@@ -33,7 +33,7 @@ Execute the build command in the root of the frontend repository
 ionic cordova build android --prod --release
 ```
 Go to the directory (frontend-repositroy/platforms/android/app/build/outputs/apk/release/) and execute the following commands to sign the app with the keystore
-``bash
+```bash
 jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore stuv_mos.keystore app-release-unsigned.apk stuv
 
 zipalign -v 4 app-release-unsigned.apk app.apk
