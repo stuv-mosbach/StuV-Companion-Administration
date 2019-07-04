@@ -16,7 +16,9 @@ The host is reachable under the address ``root.stuv-mosbach.de``, the user to us
 
 # Build process
 
-## Android
+## Frontend
+
+### Android
 
 Export the right env variables.
 ```bash
@@ -40,7 +42,7 @@ zipalign -v 4 app-release-unsigned.apk app.apk
 ```
 The finished "app.apk" can now be uploaded to the Google Play Console.
 
-## iOS
+### iOS
 
 Pretty much their is one requirement for the iOS build process, which is the necessity of an Mac.
 
@@ -58,3 +60,14 @@ To compile the app in XCode you have to do the following steps:
 5. Change the bundle id from ``de.stuv_mosbach.stuvcompanion`` to ``de.stuv-mosbach.stuvcompanion``
 6. Select ``Generic Device`` as build target
 7. ``Generate -> Archive`` to build the app and then upload it to the AppStore
+
+### Browser
+
+Execute the following command
+```bash
+ionic build --prod --service-worker
+```
+This will create the app as an deployable web project. Since we use docker for our host execute this command to build the frontend container:
+```bash
+docker build -t frontend:vX.X .
+```
