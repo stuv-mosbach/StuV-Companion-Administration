@@ -64,10 +64,10 @@ To compile the app in XCode you have to do the following steps:
 ### Browser
 
 Execute the following command
-```bash
+```node
 ionic build --prod --service-worker
 ```
 This will create the app as an deployable web project. Since we use docker for our host execute this command to build the frontend container:
-```bash
+```docker
 docker build -t frontend:vX.X .
 ```
