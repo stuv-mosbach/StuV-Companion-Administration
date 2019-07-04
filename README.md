@@ -39,3 +39,16 @@ jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore stuv_mos.keysto
 zipalign -v 4 app-release-unsigned.apk app.apk
 ```
 The finished "app.apk" can now be uploaded to the Google Play Console.
+
+## iOS
+
+Pretty much their is one requirement for the iOS build process, which is the necessity of an Mac.
+
+To start the build process execute the following command:
+```bash
+ionic cordova build ios --prod --verbose
+```
+You can run this command on any machine, but expect it to fail on Linux and Windows with an error that xcode cannot be opened. This is fine.
+To compile the app in XCode you have to do the following steps:
+
+1. Replace the 
