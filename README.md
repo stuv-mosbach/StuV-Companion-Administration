@@ -14,7 +14,7 @@ The ``.env`` file which is in use in the production stage.
 
 The host is reachable under the address ``root.stuv-mosbach.de``, the user to use is the ``root`` user. All files are located in the directory ``/opt/traefik``
 
-# Build commands
+# Build process
 
 ## Android
 
