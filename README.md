@@ -74,4 +74,7 @@ docker build -t frontend:vX.X .
 
 ## Backend
 
-
+### Subdomains
+ * api.stuv-mosbach.de -> 75.119.129.168:8090
+ * app.stuv-mosbach.de -> 75.119.129.168:8080
+ * dev.stuv-mosbach.de -> 75.119.129.168:8070
